@@ -260,7 +260,7 @@ public:
 #endif
     }
 
-    static path getcwd() {
+    static path getcwdpath() {
 #if !defined(WIN32)
         char temp[PATH_MAX];
         if (::getcwd(temp, PATH_MAX) == NULL)

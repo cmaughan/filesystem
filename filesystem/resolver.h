@@ -26,7 +26,7 @@ public:
     typedef std::vector<path>::const_iterator const_iterator;
 
     resolver() {
-        m_paths.push_back(path::getcwd());
+        m_paths.push_back(path::getcwdpath());
     }
 
     size_t size() const { return m_paths.size(); }
