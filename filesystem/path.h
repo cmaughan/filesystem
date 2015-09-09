@@ -126,6 +126,17 @@ public:
 #endif
     }
 
+    time_t file_modtime() const
+    {
+        if (!is_file())
+        {
+            return 0;
+        }
+        struct stat attr;
+        stat(str().c_str(),&attr);
+        return attr.st_mtime;
+    }
+    
     bool is_file() const {
 #if defined(WIN32)
         DWORD result = GetFileAttributesW(wstr().c_str());
