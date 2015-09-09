@@ -128,6 +128,15 @@ public:
 
     time_t file_modtime() const
     {
+#if defined(WIN32)
+        WIN32_FILE_ATTRIBUTE_DATA data;
+        DWORD result = GetFileAttributesExW(wstr().c_str(), GET_FILEEX_INFO_LEVELS::GetFileExInfoStandard, &data);
+        if (result != 0)
+        {
+            return time_t(uint64_t(data.ftLastWriteTime.dwHighDateTime) << 32 | uint64_t(data.ftLastWriteTime.dwLowDateTime));
+        }
+        return time_t(0);
+#else
         if (!is_file())
         {
             return 0;
@@ -135,6 +144,7 @@ public:
         struct stat attr;
         stat(str().c_str(),&attr);
         return attr.st_mtime;
+#endif
     }
     
     bool is_file() const {
